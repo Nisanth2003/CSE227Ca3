@@ -1,13 +1,25 @@
 package com.example.movieblink
 
+
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.movieblink.DetailActivity
+
+import com.example.movieblink.Maps
+import com.example.movieblink.R
+
+
+import com.example.movieblink.ViewPagerAdapter
 import com.example.movieblink.adapter.ListMoviesAdapter1
 import com.example.movieblink.adapter.ListMoviesAdapter2
 import com.example.movieblink.adapter.ListMoviesAdapter3
@@ -17,6 +29,9 @@ import com.example.movieblink.model.ListMovies1
 import com.example.movieblink.model.ListMovies2
 import com.example.movieblink.model.ListMovies3
 import com.example.movieblink.model.ListMovies4
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(),ListMoviesAdapter1.MyClickListener{
 
@@ -27,7 +42,11 @@ class MainActivity : AppCompatActivity(),ListMoviesAdapter1.MyClickListener{
     private lateinit var image5 : ImageView
     private lateinit var image6 : ImageView
 
+
     private lateinit var viewpager : ViewPager2
+    private val handler = Handler(Looper.getMainLooper())
+    private var runnable: Runnable?=null
+
 
 
     private lateinit var binding : ActivityMainBinding
@@ -35,6 +54,7 @@ class MainActivity : AppCompatActivity(),ListMoviesAdapter1.MyClickListener{
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapterr: ListMoviesAdapter1
     private lateinit var movieList: ArrayList<ListMovies1>
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     private lateinit var recyclerView2: RecyclerView
     private lateinit var adapter2: ListMoviesAdapter2
@@ -55,6 +75,21 @@ class MainActivity : AppCompatActivity(),ListMoviesAdapter1.MyClickListener{
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val fabAddMovie: FloatingActionButton = findViewById(R.id.fab)
+        fabAddMovie.setOnClickListener(View.OnClickListener {
+
+            Toast.makeText(this, "Add Movie clicked!", Toast.LENGTH_SHORT).show()
+
+
+            val intent = Intent(this, Maps::class.java)
+            startActivity(intent)
+        })
+        val fabOpenUserDetails: FloatingActionButton = findViewById(R.id.fab_open_user_details)
+        fabOpenUserDetails.setOnClickListener {
+            Toast.makeText(this, "User Details clicked!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         viewpager = findViewById(R.id.viewpager)
         image1    = findViewById(R.id.iv1)
@@ -64,7 +99,14 @@ class MainActivity : AppCompatActivity(),ListMoviesAdapter1.MyClickListener{
         image5    = findViewById(R.id.iv5)
         image6    = findViewById(R.id.iv6)
 
-        val images = listOf(R.drawable.got,R.drawable.img_4,R.drawable.img_7,R.drawable.img_2,R.drawable.img_1,R.drawable.img_9)
+        val images = listOf(
+            R.drawable.got,
+            R.drawable.img_4,
+            R.drawable.img_7,
+            R.drawable.img_2,
+            R.drawable.img_1,
+            R.drawable.img_9
+        )
         val adapter = ViewPagerAdapter(images)               // Here passing images to adapter
         viewpager.adapter = adapter                          // Here we setting adapter on viewpager
 
@@ -73,6 +115,59 @@ class MainActivity : AppCompatActivity(),ListMoviesAdapter1.MyClickListener{
 //            rvMain.adapter = ParentAdapter(SampleData.collections)
 //        }
 
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    val i = Intent(this, MainActivity::class.java)
+                    startActivity(i)
+                    Toast.makeText(this, "Movies Selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.nav_favorites -> {
+                    val i = Intent(this, CartActivity::class.java)
+                    startActivity(i)
+                    Toast.makeText(this, "Favorites Selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.nav_settings -> {
+                    val i = Intent(this, SettingActivity::class.java)
+                    startActivity(i)
+
+                    Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.nav_profile -> {
+                    val i = Intent(this, ProfileActivity::class.java)
+                    startActivity(i)
+
+                    Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                changeColor()
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                changeColor()
+            }
+        })
+
+        // Auto-slide logic
+        startAutoSlide()
 
         recyclerView = findViewById(R.id.recyclerView1)
         recyclerView.setHasFixedSize(true)
@@ -170,6 +265,21 @@ class MainActivity : AppCompatActivity(),ListMoviesAdapter1.MyClickListener{
             }
         })
 
+    }
+
+    private fun startAutoSlide() {
+        runnable = object : Runnable {
+            override fun run() {
+                val nextItem = (viewpager.currentItem + 1) % viewpager.adapter!!.itemCount
+                viewpager.setCurrentItem(nextItem, true)
+                handler.postDelayed(this, 2000) // Slide every 3 seconds
+            }
+        }
+        handler.postDelayed(runnable!!, 2000)
+    }
+
+    private fun stopAutoSlide() {
+        handler.removeCallbacks(runnable!!)
     }
     //Dot Indicator change color
     fun changeColor(){

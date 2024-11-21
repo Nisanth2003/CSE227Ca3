@@ -10,33 +10,6 @@
     tools:context=".DetailActivity">
 
 
-<!--    <TextView-->
-<!--        android:id="@+id/tvMovieName"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="18sp"-->
-<!--        android:textStyle="bold" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/tvReleaseDate"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="16sp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/tvCast"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="16sp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/tvDetails"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="14sp" />-->
-
-    <!-- ScrollView to enable scrolling if content overflows -->
-
     <!-- ScrollView to enable scrolling if content overflows -->
     <ScrollView
         android:layout_width="match_parent"
@@ -71,7 +44,7 @@
                 android:layout_height="400dp"
                 android:layout_marginBottom="16dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/intropic"
+                android:src="@drawable/imdb1"
                 android:background="@drawable/rounded_corners_bg"
                 app:layout_constraintTop_toBottomOf="@id/backButton"
                 app:layout_constraintStart_toStartOf="parent"
@@ -166,6 +139,32 @@
                 app:layout_constraintTop_toBottomOf="@id/tvCastHeading"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnAddToCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to Cart"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/tvCast"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="200dp"
+                app:layout_goneMarginTop="20dp"
+                />
+            <Button
+                android:id="@+id/watch_o"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Watch Online"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/tvCast"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="70dp"
+                app:layout_goneMarginTop="20dp"
+                />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

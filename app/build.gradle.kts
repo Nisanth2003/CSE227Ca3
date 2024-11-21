@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -46,21 +47,26 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.auth)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation(kotlin("script-runtime"))
+        androidTestImplementation(libs.androidx.espresso.core)
+        implementation(kotlin("script-runtime"))
 
-    implementation("io.coil-kt:coil:2.0.0")
+        implementation(libs.coil)
 
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")           //Retrofit
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")     //Gson Converter
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")  //OkHttp
+
+        implementation(libs.retrofit)           //Retrofit
+        implementation(libs.converter.gson)     //Gson Converter
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)  //OkHttp
 
     // Coroutines
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
 }

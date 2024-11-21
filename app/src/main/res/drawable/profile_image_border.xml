@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@android:color/white" /> <!-- Background color for the profile image -->
+    <stroke
+        android:width="3dp"
+        android:color="#3F51B5" /> <!-- Blue border around the image -->
+    <size android:width="120dp" android:height="120dp" />
+</shape>
